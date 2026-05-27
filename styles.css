@@ -249,6 +249,90 @@ body.theme-slate {
 .rule-secondary { background: var(--secondary); flex: 0.8; }
 
 /* =====================================================
+   WEEK SELECTION DECK
+   ===================================================== */
+.week-navigation-deck {
+    background: rgba(var(--primary-rgb), 0.03);
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px;
+    gap: 20px;
+    flex-wrap: wrap;
+    transition: background 0.3s ease;
+}
+
+.week-nav-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary);
+}
+
+.week-nav-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.week-nav-btn {
+    background: var(--cell-bg);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 8px 18px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 90px;
+    box-shadow: 0 2px 6px var(--shadow);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.week-nav-btn .week-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--primary);
+    transition: color 0.3s ease;
+}
+
+.week-nav-btn .week-lbl {
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    transition: color 0.3s ease;
+}
+
+.week-nav-btn:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.week-nav-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.25);
+    transform: translateY(0);
+}
+
+.week-nav-btn.active .week-num {
+    color: var(--secondary);
+}
+
+.week-nav-btn.active .week-lbl {
+    color: #FBF7EF;
+}
+
+/* =====================================================
    LEGEND BAR
    ===================================================== */
 .legend-bar {
@@ -1004,7 +1088,8 @@ body.theme-slate {
     .tweaks-panel,
     .tweaks-toggle,
     .share-modal,
-    .mobile-navigation-deck {
+    .mobile-navigation-deck,
+    .week-navigation-deck {
         display: none !important;
     }
 

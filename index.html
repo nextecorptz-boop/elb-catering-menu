@@ -18,10 +18,13 @@
             <div class="header-content">
                 <div class="header-left">
                     <div class="logo-mark">
-                        <svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="64" height="64" fill="rgba(15, 48, 32, 0.9)" rx="6"/>
-                            <text x="32" y="42" font-family="Playfair Display, serif" font-size="24" font-weight="700" fill="#D4AF37" text-anchor="middle" letter-spacing="1">ELB</text>
-                            <rect x="14" y="46" width="36" height="2" fill="#C2591F"/>
+                        <svg viewBox="0 0 100 100" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="rgba(15, 48, 32, 0.9)" stroke="var(--secondary)" stroke-width="2"/>
+                            <circle cx="50" cy="50" r="41" fill="none" stroke="var(--secondary)" stroke-width="0.75" stroke-dasharray="3 3"/>
+                            <path d="M50 22 C43 32 43 43 50 51 C57 43 57 32 50 22 Z" fill="var(--accent)" opacity="0.85"/>
+                            <path d="M50 51 L50 78" stroke="var(--secondary)" stroke-width="2.5" stroke-linecap="round"/>
+                            <text x="50" y="63" font-family="'Cinzel', serif" font-size="15" font-weight="700" fill="var(--secondary)" text-anchor="middle" letter-spacing="0.5">ELB</text>
+                            <polygon points="50,11 52,15 56,15 53,17 54,21 50,19 46,21 47,17 44,15 48,15" fill="var(--secondary)"/>
                         </svg>
                     </div>
                     <div class="header-text">
@@ -45,6 +48,14 @@
             <div class="rule-segment rule-primary"></div>
             <div class="rule-segment rule-accent"></div>
             <div class="rule-segment rule-secondary"></div>
+        </div>
+
+        <!-- WEEK SELECTION DECK -->
+        <div class="week-navigation-deck">
+            <span class="week-nav-label">Catering Week</span>
+            <div class="week-nav-buttons" id="weekNavButtonsContainer">
+                <!-- Injected dynamically by JS -->
+            </div>
         </div>
 
         <!-- LEGEND BAR -->
@@ -106,10 +117,13 @@
             <div class="flyer-decor-top"></div>
             <div class="flyer-header">
                 <div class="flyer-logo">
-                    <svg viewBox="0 0 64 64" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="64" height="64" fill="#0F3020" rx="8"/>
-                        <text x="32" y="42" font-family="Playfair Display, serif" font-size="24" font-weight="700" fill="#D4AF37" text-anchor="middle" letter-spacing="1">ELB</text>
-                        <rect x="14" y="46" width="36" height="2" fill="#C2591F"/>
+                    <svg viewBox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="#0F3020" stroke="#D4AF37" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="41" fill="none" stroke="#D4AF37" stroke-width="0.75" stroke-dasharray="3 3"/>
+                        <path d="M50 22 C43 32 43 43 50 51 C57 43 57 32 50 22 Z" fill="#C2591F" opacity="0.85"/>
+                        <path d="M50 51 L50 78" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                        <text x="50" y="63" font-family="'Cinzel', serif" font-size="15" font-weight="700" fill="#D4AF37" text-anchor="middle" letter-spacing="0.5">ELB</text>
+                        <polygon points="50,11 52,15 56,15 53,17 54,21 50,19 46,21 47,17 44,15 48,15" fill="#D4AF37"/>
                     </svg>
                 </div>
                 <h2 class="flyer-brand-name">ELB Catering Services</h2>

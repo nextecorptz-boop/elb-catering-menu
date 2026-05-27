@@ -1,6 +1,6 @@
 /**
- * ELB Catering Menu - Application Logic v3.0
- * Premium Interactive Menu with Mobile Tabs, WhatsApp Sharing & QR Flyer Print
+ * ELB Catering Menu - Application Logic v4.0
+ * Premium Interactive Menu with 4-Week Selection, URL Parameter Routing, WhatsApp Sharing & QR Table Tent
  */
 
 // Abstract food SVG illustrations — using CSS custom variables for dynamic themes
@@ -111,16 +111,43 @@ class MenuApplication {
         this.currentTheme = 'classic';
         this.tweaks = { theme: 'classic', printLayout: 'menu' };
         this.activeDay = 'Monday';
+        this.activeWeek = 1; // Default to Week 1
         this.mobileViewMode = 'single'; // 'single' (tabbed) or 'full' (all days)
         this.init();
     }
 
     init() {
+        this.parseUrlParameters();
         this.setupEventListeners();
+        this.renderWeekSelector();
         this.renderMenu();
         this.renderMobileTabs();
         this.loadSavedTweaks();
         this.updateMobileViewLayout();
+        this.generateQRCodeImages();
+    }
+
+    parseUrlParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Active Week Parsing (1-4)
+        const weekParam = urlParams.get('week');
+        if (weekParam && [1, 2, 3, 4].includes(parseInt(weekParam))) {
+            this.activeWeek = parseInt(weekParam);
+        }
+
+        // Active Day Parsing
+        const dayParam = urlParams.get('day');
+        const validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        if (dayParam && validDays.includes(dayParam)) {
+            this.activeDay = dayParam;
+        }
+    }
+
+    updateUrlParameters() {
+        const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?week=${this.activeWeek}&day=${this.activeDay}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+        // Refresh QR codes since parameters changed
         this.generateQRCodeImages();
     }
 
@@ -194,6 +221,38 @@ class MenuApplication {
         });
     }
 
+    renderWeekSelector() {
+        const container = document.getElementById('weekNavButtonsContainer');
+        container.innerHTML = '';
+
+        [1, 2, 3, 4].forEach(w => {
+            const btn = document.createElement('button');
+            btn.className = 'week-nav-btn';
+            if (w === this.activeWeek) btn.classList.add('active');
+            
+            // Premium double digit formatting
+            btn.innerHTML = `<span class="week-num">0${w}</span><span class="week-lbl">Week</span>`;
+
+            btn.addEventListener('click', () => {
+                this.setWeek(w);
+            });
+
+            container.appendChild(btn);
+        });
+    }
+
+    setWeek(weekNumber) {
+        this.activeWeek = weekNumber;
+        
+        // Update active class on buttons
+        document.querySelectorAll('.week-nav-btn').forEach((btn, index) => {
+            btn.classList.toggle('active', (index + 1) === weekNumber);
+        });
+
+        this.renderMenu();
+        this.updateUrlParameters();
+    }
+
     renderMenu() {
         const container = document.getElementById('menuContainer');
         container.innerHTML = '';
@@ -201,7 +260,9 @@ class MenuApplication {
         const grid = document.createElement('div');
         grid.className = 'week-grid';
 
-        this.data.days.forEach(day => {
+        const weekData = this.data.weeks[this.activeWeek] || this.data.weeks[1];
+
+        weekData.forEach(day => {
             const cell = document.createElement('div');
             cell.className = `day-cell day-${day.dayName.toLowerCase()}`;
             cell.dataset.day = day.dayName;
@@ -264,7 +325,9 @@ class MenuApplication {
         const tabsContainer = document.getElementById('mobileTabsContainer');
         tabsContainer.innerHTML = '';
 
-        this.data.days.forEach(day => {
+        const weekData = this.data.weeks[this.activeWeek] || this.data.weeks[1];
+
+        weekData.forEach(day => {
             const btn = document.createElement('button');
             btn.className = 'mobile-tab-btn';
             if (day.dayName === this.activeDay) btn.classList.add('active');
@@ -293,6 +356,8 @@ class MenuApplication {
         document.querySelectorAll('.day-cell').forEach(cell => {
             cell.classList.toggle('active-day', cell.dataset.day === dayName);
         });
+
+        this.updateUrlParameters();
     }
 
     updateMobileViewLayout() {
@@ -332,11 +397,11 @@ class MenuApplication {
     }
 
     saveTweaks() {
-        localStorage.setItem('elbMenuTweaks_v3', JSON.stringify(this.tweaks));
+        localStorage.setItem('elbMenuTweaks_v4', JSON.stringify(this.tweaks));
     }
 
     loadSavedTweaks() {
-        const saved = localStorage.getItem('elbMenuTweaks_v3');
+        const saved = localStorage.getItem('elbMenuTweaks_v4');
         if (saved) {
             try {
                 this.tweaks = { ...this.tweaks, ...JSON.parse(saved) };
@@ -358,7 +423,7 @@ class MenuApplication {
         let currentUrl = window.location.href;
         // Mock url for local testing file protocol
         if (currentUrl.startsWith('file://')) {
-            currentUrl = 'https://elbcatering.com/office-lunch-menu';
+            currentUrl = `https://elbcatering.com/office-lunch-menu?week=${this.activeWeek}&day=${this.activeDay}`;
         }
         
         const size = 300;
@@ -380,13 +445,18 @@ class MenuApplication {
     copyWhatsAppMenu() {
         let currentUrl = window.location.href;
         if (currentUrl.startsWith('file://')) {
-            currentUrl = 'https://elbcatering.com/office-lunch-menu';
+            currentUrl = `https://elbcatering.com/office-lunch-menu?week=${this.activeWeek}&day=${this.activeDay}`;
         }
 
-        let message = `🍽️ *ELB CATERING SERVICES* \n`;
-        message += `*Office Lunch Menu — Monday to Friday*\n\n`;
+        const weekSpellings = ["ONE", "TWO", "THREE", "FOUR"];
+        const currentWeekSpelling = weekSpellings[this.activeWeek - 1] || "ONE";
 
-        this.data.days.forEach(day => {
+        let message = `🍽️ *ELB CATERING SERVICES* \n`;
+        message += `*Office Lunch Menu — WEEK ${currentWeekSpelling}*\n\n`;
+
+        const weekData = this.data.weeks[this.activeWeek] || this.data.weeks[1];
+
+        weekData.forEach(day => {
             message += `📅 *${day.dayName.toUpperCase()}*\n`;
             message += `• _Starch:_ ${day.meals.mainStarch}\n`;
             message += `• _Protein:_ ${day.meals.protein1}\n`;
