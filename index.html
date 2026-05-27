@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELB Catering — Office Lunch Menu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- MAIN INTERACTIVE MENU CONTAINER -->
+    <div class="menu-container">
+
+        <!-- HEADER HERO BANNER -->
+        <header class="menu-header">
+            <div class="header-banner-bg" style="background-image: url('catering_banner.png');"></div>
+            <div class="header-overlay"></div>
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-mark">
+                        <svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="64" height="64" fill="rgba(15, 48, 32, 0.9)" rx="6"/>
+                            <text x="32" y="42" font-family="Playfair Display, serif" font-size="24" font-weight="700" fill="#D4AF37" text-anchor="middle" letter-spacing="1">ELB</text>
+                            <rect x="14" y="46" width="36" height="2" fill="#C2591F"/>
+                        </svg>
+                    </div>
+                    <div class="header-text">
+                        <h1 class="brand-name">ELB Catering Services</h1>
+                        <p class="brand-tagline">Delicious, Nutritious &amp; Satisfying Meals Everyday</p>
+                        <p class="brand-contact">Kawe, near Liders Group &nbsp;&bull;&nbsp; Dar es Salaam, Tanzania &nbsp;&bull;&nbsp; +255 715 279061 &nbsp;&bull;&nbsp; +255 754 279061</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="menu-title-block">
+                        <span class="menu-label-small">Office Lunch</span>
+                        <span class="menu-title-large">Menu</span>
+                        <span class="menu-label-small">Monday — Friday</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- LUXURY RULE -->
+        <div class="header-rule">
+            <div class="rule-segment rule-primary"></div>
+            <div class="rule-segment rule-accent"></div>
+            <div class="rule-segment rule-secondary"></div>
+        </div>
+
+        <!-- LEGEND BAR -->
+        <div class="legend-bar">
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="legend-pip pip-starch"></span>
+                    <span>Starch</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-pip pip-protein"></span>
+                    <span>Protein Options</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-pip pip-veg"></span>
+                    <span>Vegetables</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-pip pip-sides"></span>
+                    <span>Sides</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-pip pip-fruit"></span>
+                    <span>Daily Fruit</span>
+                </div>
+            </div>
+            <div class="legend-tagline">
+                Standard Tanzanian Meals &nbsp;&middot;&nbsp; Balanced Portions &nbsp;&middot;&nbsp; Quality Ingredients
+            </div>
+        </div>
+
+        <!-- MOBILE TABBED NAVIGATION / DUAL VIEW TOGGLE -->
+        <div class="mobile-navigation-deck">
+            <div class="mobile-tabs" id="mobileTabsContainer">
+                <!-- Injected dynamically by JS -->
+            </div>
+            <button class="view-toggle-btn" id="viewToggleBtn">Show Full Week</button>
+        </div>
+
+        <!-- MENU GRID -->
+        <main id="menuContainer" class="menu-body"></main>
+
+        <!-- FOOTER -->
+        <footer class="menu-footer">
+            <span>ELB Catering Services</span>
+            <span class="footer-sep">&bull;</span>
+            <span>P.O. BOX 68945, Dar es Salaam</span>
+            <span class="footer-sep">&bull;</span>
+            <span>elbcateringservices@gmail.com</span>
+            <span class="footer-sep">&bull;</span>
+            <span>+255 715 279061</span>
+        </footer>
+
+    </div>
+
+    <!-- PRINTABLE QR TABLE FLYER (PRINT ONLY) -->
+    <div id="qrFlyerContainer" class="qr-flyer-container">
+        <div class="flyer-card">
+            <div class="flyer-decor-top"></div>
+            <div class="flyer-header">
+                <div class="flyer-logo">
+                    <svg viewBox="0 0 64 64" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="64" height="64" fill="#0F3020" rx="8"/>
+                        <text x="32" y="42" font-family="Playfair Display, serif" font-size="24" font-weight="700" fill="#D4AF37" text-anchor="middle" letter-spacing="1">ELB</text>
+                        <rect x="14" y="46" width="36" height="2" fill="#C2591F"/>
+                    </svg>
+                </div>
+                <h2 class="flyer-brand-name">ELB Catering Services</h2>
+                <p class="flyer-brand-tagline">Delicious, Nutritious &amp; Satisfying Meals Everyday</p>
+            </div>
+            
+            <div class="flyer-body">
+                <div class="flyer-ornament">✦ ✦ ✦</div>
+                <h3 class="flyer-heading">WEEKLY OFFICE LUNCH</h3>
+                <p class="flyer-subheading">Scan the QR code below to view today's interactive menu, request customizations, or contact our service.</p>
+                
+                <div class="flyer-qrcode-wrapper">
+                    <div class="flyer-qrcode" id="flyerQrCode"></div>
+                </div>
+                
+                <p class="flyer-url" id="flyerUrlText">Scan Me to View Menu</p>
+            </div>
+            
+            <div class="flyer-footer">
+                <p>Kawe, near Liders Group, Dar es Salaam</p>
+                <p>+255 715 279061 &nbsp;&bull;&nbsp; +255 754 279061</p>
+                <div class="flyer-decor-bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMIZATION PANEL -->
+    <div class="tweaks-panel" role="dialog" aria-label="Menu customization">
+        <div class="tweaks-header">
+            <h3>Customization &amp; Tools</h3>
+            <button class="tweaks-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="tweaks-content">
+            <div class="tweaks-group">
+                <label for="themeSelect">Color Theme</label>
+                <select id="themeSelect">
+                    <option value="classic">Classic Emerald</option>
+                    <option value="navy">Midnight Navy</option>
+                    <option value="umber">Warm Umber</option>
+                    <option value="slate">Charcoal Slate</option>
+                </select>
+            </div>
+            <div class="tweaks-group">
+                <label for="printLayoutSelect">Print Selection</label>
+                <select id="printLayoutSelect">
+                    <option value="menu">A4 Full Week Menu</option>
+                    <option value="flyer">QR Table Tent Flyer</option>
+                </select>
+            </div>
+            <button id="shareBtn" class="print-button" style="background: var(--accent); margin-bottom: 12px;">Share &amp; QR Code</button>
+            <button id="printBtn" class="print-button">Print / Save PDF</button>
+        </div>
+    </div>
+
+    <button class="tweaks-toggle" aria-label="Open customization">Customize</button>
+
+    <!-- SHARE & QR MODAL -->
+    <div id="shareModal" class="share-modal" role="dialog" aria-modal="true" aria-label="Share Center">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3>Share &amp; Access</h3>
+                <button class="share-modal-close" id="shareModalClose" aria-label="Close Modal">&times;</button>
+            </div>
+            <div class="share-modal-body">
+                <div class="share-section">
+                    <h4>WhatsApp Menu Sharing</h4>
+                    <p class="share-desc">Copy a pre-formatted message listing this week's full menu, perfect for sharing directly to office WhatsApp groups.</p>
+                    <button id="whatsappCopyBtn" class="share-action-button whatsapp-button">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.062 5.388 5.4 0 12 0c3.197.001 6.202 1.244 8.461 3.505C22.72 5.766 23.962 8.773 23.96 11.972c-.004 6.582-5.342 11.97-11.942 11.97-1.996-.001-3.96-.5-5.707-1.45L0 24zm6.59-4.846c1.66.986 3.284 1.503 4.908 1.504 5.378 0 9.75-4.374 9.752-9.75.002-5.378-4.37-9.753-9.752-9.753-5.378 0-9.75 4.372-9.75 9.753 0 1.737.525 3.375 1.523 4.787l-.992 3.623 3.731-.977zm11.758-5.334c-.267-.134-1.58-.78-1.822-.867-.243-.088-.419-.133-.596.134-.176.265-.683.867-.838 1.042-.154.177-.309.199-.576.066-.267-.134-1.127-.416-2.147-1.327-.792-.708-1.327-1.582-1.483-1.848-.155-.267-.017-.411.117-.544.12-.12.267-.31.401-.465.134-.156.177-.267.267-.444.09-.178.044-.334-.022-.467-.066-.134-.596-1.436-.816-1.97-.216-.519-.453-.448-.621-.456-.16-.008-.344-.01-.529-.01-.185 0-.486.07-.74.35-.254.28-1.026 1.004-1.026 2.45s1.054 2.84 1.202 3.039c.148.199 2.073 3.167 5.023 4.444.701.304 1.249.485 1.674.621.705.224 1.347.193 1.854.117.565-.084 1.58-.646 1.801-1.24.22-.593.22-1.102.154-1.207-.066-.105-.243-.178-.51-.311z"/>
+                        </svg>
+                        Copy WhatsApp Menu
+                    </button>
+                    <span class="copy-success-badge" id="copySuccessBadge">Copied to Clipboard!</span>
+                </div>
+                <div class="share-divider"></div>
+                <div class="share-section">
+                    <h4>Direct QR Code</h4>
+                    <p class="share-desc">Point your phone's camera at the screen to instantly load this menu. Share this code or print it out.</p>
+                    <div class="modal-qrcode" id="modalQrCode"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
