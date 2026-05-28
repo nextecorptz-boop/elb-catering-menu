@@ -611,9 +611,10 @@ body.theme-slate {
 }
 
 /* =====================================================
-   PRINTABLE QR TABLE FLYER (SCREEN HIDDEN)
+   PRINTABLE SCREEN HIDDEN CONTAINERS
    ===================================================== */
-.qr-flyer-container {
+.qr-flyer-container,
+.all-weeks-print-container {
     display: none; /* Hide entirely on screen */
 }
 
@@ -1176,9 +1177,13 @@ body.theme-slate {
         border-top: 2px solid var(--accent) !important;
     }
 
-    @page {
+    @page landscape-page {
         size: A4 landscape;
         margin: 5mm;
+    }
+
+    body:not(.print-flyer-mode) .menu-container {
+        page: landscape-page;
     }
 
     /* --- MODE 2: TABLE TENT FLYER (A4 PORTRAIT) --- */
@@ -1318,8 +1323,38 @@ body.theme-slate {
         margin-top: 15px;
     }
 
-    @page {
+    @page portrait-page {
         size: A4 portrait;
         margin: 5mm;
+    }
+
+    body.print-flyer-mode .qr-flyer-container {
+        page: portrait-page;
+    }
+
+    /* --- MODE 3: 4-WEEK BOOKLET (A4 LANDSCAPE MULTI-PAGE) --- */
+    body.print-all-weeks-mode .menu-container:not(.print-week-page),
+    body.print-all-weeks-mode #qrFlyerContainer {
+        display: none !important;
+    }
+
+    body.print-all-weeks-mode .all-weeks-print-container {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    body.print-all-weeks-mode .print-week-page {
+        page-break-after: always;
+        width: 297mm !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        background: #FFFFFF !important;
+        border: none !important;
+        box-shadow: none !important;
+        page: landscape-page;
+    }
+
+    body.print-all-weeks-mode .print-week-page:last-child {
+        page-break-after: avoid;
     }
 }

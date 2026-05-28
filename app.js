@@ -1,5 +1,5 @@
 /**
- * ELB Catering Menu - Application Logic v4.0
+ * ELB Catering Menu - Application Logic v5.0
  * Premium Interactive Menu with 4-Week Selection, URL Parameter Routing, WhatsApp Sharing & QR Table Tent
  */
 
@@ -122,6 +122,7 @@ class MenuApplication {
         this.renderWeekSelector();
         this.renderMenu();
         this.renderMobileTabs();
+        this.renderAllWeeksPrint(); // Populate booklet print container
         this.loadSavedTweaks();
         this.updateMobileViewLayout();
         this.generateQRCodeImages();
@@ -378,6 +379,126 @@ class MenuApplication {
         }
     }
 
+    renderAllWeeksPrint() {
+        const container = document.getElementById('allWeeksPrintContainer');
+        container.innerHTML = '';
+
+        [1, 2, 3, 4].forEach(w => {
+            const page = document.createElement('div');
+            page.className = 'print-week-page';
+
+            // Generate headers, grid structure, and footers for each week page block
+            page.innerHTML = `
+                <header class="menu-header">
+                    <div class="header-banner-bg" style="background-image: url('catering_banner.png');"></div>
+                    <div class="header-overlay"></div>
+                    <div class="header-content">
+                        <div class="header-left">
+                            <div class="logo-mark">
+                                <svg viewBox="0 0 100 100" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="45" fill="rgba(15, 48, 32, 0.9)" stroke="var(--secondary)" stroke-width="2"/>
+                                    <circle cx="50" cy="50" r="41" fill="none" stroke="var(--secondary)" stroke-width="0.75" stroke-dasharray="3 3"/>
+                                    <path d="M50 22 C43 32 43 43 50 51 C57 43 57 32 50 22 Z" fill="var(--accent)" opacity="0.85"/>
+                                    <path d="M50 51 L50 78" stroke="var(--secondary)" stroke-width="2.5" stroke-linecap="round"/>
+                                    <text x="50" y="63" font-family="'Cinzel', serif" font-size="15" font-weight="700" fill="var(--secondary)" text-anchor="middle" letter-spacing="0.5">ELB</text>
+                                    <polygon points="50,11 52,15 56,15 53,17 54,21 50,19 46,21 47,17 44,15 48,15" fill="var(--secondary)"/>
+                                </svg>
+                            </div>
+                            <div class="header-text">
+                                <h1 class="brand-name">ELB Catering Services</h1>
+                                <p class="brand-tagline">Delicious, Nutritious &amp; Satisfying Meals Everyday</p>
+                                <p class="brand-contact">Kawe, near Liders Group &nbsp;&bull;&nbsp; Dar es Salaam, Tanzania &nbsp;&bull;&nbsp; +255 715 279061 &nbsp;&bull;&nbsp; +255 754 279061</p>
+                            </div>
+                        </div>
+                        <div class="header-right">
+                            <div class="menu-title-block">
+                                <span class="menu-label-small">Office Lunch</span>
+                                <span class="menu-title-large">Week 0${w}</span>
+                                <span class="menu-label-small">Monday — Friday</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="header-rule">
+                    <div class="rule-segment rule-primary"></div>
+                    <div class="rule-segment rule-accent"></div>
+                    <div class="rule-segment rule-secondary"></div>
+                </div>
+
+                <div class="legend-bar">
+                    <div class="legend-items">
+                        <div class="legend-item"><span class="legend-pip pip-starch"></span><span>Starch</span></div>
+                        <div class="legend-item"><span class="legend-pip pip-protein"></span><span>Protein Options</span></div>
+                        <div class="legend-item"><span class="legend-pip pip-veg"></span><span>Vegetables</span></div>
+                        <div class="legend-item"><span class="legend-pip pip-sides"></span><span>Sides</span></div>
+                        <div class="legend-item"><span class="legend-pip pip-fruit"></span><span>Daily Fruit</span></div>
+                    </div>
+                </div>
+
+                <main class="menu-body">
+                    <div class="week-grid" id="printGrid_Week${w}"></div>
+                </main>
+
+                <footer class="menu-footer">
+                    <span>ELB Catering Services</span>
+                    <span class="footer-sep">&bull;</span>
+                    <span>P.O. BOX 68945, Dar es Salaam</span>
+                    <span class="footer-sep">&bull;</span>
+                    <span>elbcateringservices@gmail.com</span>
+                    <span class="footer-sep">&bull;</span>
+                    <span>+255 715 279061</span>
+                </footer>
+            `;
+
+            container.appendChild(page);
+
+            // Populate the grid for this week
+            const grid = document.getElementById(`printGrid_Week${w}`);
+            const weekData = this.data.weeks[w] || this.data.weeks[1];
+
+            weekData.forEach(day => {
+                const cell = document.createElement('div');
+                cell.className = `day-cell day-${day.dayName.toLowerCase()}`;
+
+                const artWrapper = document.createElement('div');
+                artWrapper.className = 'day-art';
+                artWrapper.innerHTML = DAY_ILLUSTRATIONS[day.dayName] || DAY_ILLUSTRATIONS['Monday'];
+                cell.appendChild(artWrapper);
+
+                const dayName = document.createElement('div');
+                dayName.className = 'day-name';
+                dayName.innerHTML = `<span>${day.dayName}</span><span class="day-dot">✦</span>`;
+                cell.appendChild(dayName);
+
+                const contentDeck = document.createElement('div');
+                contentDeck.className = 'meal-content-deck';
+
+                const categories = [
+                    { label: 'Starch Options', key: 'mainStarch', class: 'cat-starch' },
+                    { label: 'Primary Protein', key: 'protein1', class: 'cat-protein-primary' },
+                    { label: 'Alternative Protein', key: 'protein2', class: 'cat-protein-alt' },
+                    { label: 'Fresh Vegetables', key: 'vegetables', class: 'cat-veg' },
+                    { label: 'Traditional Sides', key: 'sides', class: 'cat-sides' },
+                    { label: 'Daily Dessert Fruit', key: 'fruit', class: 'cat-fruit' }
+                ];
+
+                categories.forEach(cat => {
+                    const row = document.createElement('div');
+                    row.className = `meal-row ${cat.class}`;
+                    row.innerHTML = `
+                        <span class="meal-label">${cat.label}</span>
+                        <div class="meal-item">${day.meals[cat.key]}</div>
+                    `;
+                    contentDeck.appendChild(row);
+                });
+
+                cell.appendChild(contentDeck);
+                grid.appendChild(cell);
+            });
+        });
+    }
+
     setTheme(themeName) {
         this.currentTheme = themeName;
         this.tweaks.theme = themeName;
@@ -388,20 +509,23 @@ class MenuApplication {
 
     setPrintLayout(layoutType) {
         this.tweaks.printLayout = layoutType;
+        document.body.classList.remove('print-flyer-mode', 'print-all-weeks-mode');
+        
         if (layoutType === 'flyer') {
             document.body.classList.add('print-flyer-mode');
-        } else {
-            document.body.classList.remove('print-flyer-mode');
+        } else if (layoutType === 'allweeks') {
+            document.body.classList.add('print-all-weeks-mode');
         }
+        
         this.saveTweaks();
     }
 
     saveTweaks() {
-        localStorage.setItem('elbMenuTweaks_v4', JSON.stringify(this.tweaks));
+        localStorage.setItem('elbMenuTweaks_v5', JSON.stringify(this.tweaks));
     }
 
     loadSavedTweaks() {
-        const saved = localStorage.getItem('elbMenuTweaks_v4');
+        const saved = localStorage.getItem('elbMenuTweaks_v5');
         if (saved) {
             try {
                 this.tweaks = { ...this.tweaks, ...JSON.parse(saved) };
